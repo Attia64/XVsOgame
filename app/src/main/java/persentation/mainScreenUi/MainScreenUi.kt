@@ -1,16 +1,25 @@
-package persentation.mainScreen
+package persentation.mainScreenUi
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -18,6 +27,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,15 +47,40 @@ import com.attia.xvso.ui.theme.BoxBg
 import com.attia.xvso.ui.theme.MainBg
 import com.attia.xvso.ui.theme.RoundCircle
 import com.attia.xvso.ui.theme.StateShape
+import persentation.viewModels.MainScreenViewModel
+import persentation.viewModels.UserActions
 
 
 @Composable
 fun MainScreen(
-    roundsX: Int = 0,
-    roundsY: Int = 0,
-    currentRoundNum: Int = 1,
-    turn: String = "X"
+    viewModel: MainScreenViewModel
 ) {
+    val gameStates = viewModel.state
+    val gridState = remember {
+        mutableStateListOf<Boolean>().apply {
+            repeat(9) {
+                add(false)
+            }
+        }
+    }
+    var animeGride by remember {
+        mutableStateOf(false)
+    }
+
+    if(viewModel.isBoardFull()) {
+        StatusDialog(
+            title = "Draw",
+            onConfirm = {
+                viewModel.onAction(
+                    UserActions.PlayAgainButtonClicked
+                )
+                gridState.apply {
+                    repeat(9) {
+                        add(false)
+                    }
+                }
+            })
+    }
 
     Column(
         modifier = Modifier
@@ -87,7 +127,7 @@ fun MainScreen(
                     ) {
 
                         Text(
-                            text = "Play X",
+                            text = "Play: X",
                             fontSize = 12.sp,
                             textAlign = TextAlign.Center,
                             color = Color.Black
@@ -109,7 +149,9 @@ fun MainScreen(
                                     defaultElevation = 2.dp
                                 )
                             ) {
-                                X()
+                                X(
+                                    10f
+                                )
                             }
                         }
                     }
@@ -133,7 +175,7 @@ fun MainScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Won Rounds: $roundsX",
+                            text = "Won Rounds: ${gameStates.xWinRounds}",
                             fontSize = 10.sp,
                             textAlign = TextAlign.Center,
                             color = BorderBg,
@@ -144,25 +186,49 @@ fun MainScreen(
 
 
             }
-            Box(
+            Column(
                 modifier = Modifier
-                    .size(70.dp)
-                    .graphicsLayer {
-                        shadowElevation = 6.dp.toPx()
-                        shape = CircleShape
-                        clip = true
-                    }
-                    .background(color = RoundCircle)
-                    .weight(0.17f),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize(0.3f)
+                    .weight(0.3f)
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceAround
             ) {
-                Text(
-                    text = "$currentRoundNum \n" +
-                            "Round",
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    color = Color.Black
-                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.5f)
+                        .graphicsLayer {
+                            shadowElevation = 6.dp.toPx()
+                            shape = CircleShape
+                            clip = true
+                        }
+                        .background(color = RoundCircle),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "${gameStates.roundsPlayed} \n" +
+                                "Round",
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    )
+                }
+                Box(modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.3f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Draw: ${gameStates.drawTimes} Times",
+                        color = BoxBg,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+
+                    )
+                }
             }
 
             Column(
@@ -193,7 +259,7 @@ fun MainScreen(
                     ) {
 
                         Text(
-                            text = "Play O",
+                            text = "Play: O",
                             fontSize = 12.sp,
                             textAlign = TextAlign.Center,
                             color = Color.Black
@@ -213,7 +279,9 @@ fun MainScreen(
                                     defaultElevation = 2.dp
                                 )
                             ) {
-                                O()
+                                O(
+                                    10f
+                                )
                             }
                         }
                     }
@@ -237,7 +305,7 @@ fun MainScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Won Rounds: $roundsY",
+                            text = "Won Rounds: ${gameStates.oWinRounds}",
                             fontSize = 10.sp,
                             textAlign = TextAlign.Center,
                             color = BorderBg,
@@ -265,7 +333,72 @@ fun MainScreen(
                 .border(4.dp, Color.White, RoundedCornerShape(20.dp))
 
         ) {
-            BoardGrid()
+            LaunchedEffect(key1 = true) {
+                animeGride = true
+            }
+            this@Column.AnimatedVisibility(
+                visible = animeGride,
+                enter = expandHorizontally(
+                    tween(
+                        1000
+                    )
+                )
+            ) {
+                BoardGrid()
+            }
+
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f),
+                columns = GridCells.Fixed(3),
+                userScrollEnabled = false
+            ) {
+                viewModel.boardItem.forEach { (cellNo, boardCellValue) ->
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(1f)
+                                .padding(20.dp)
+                                .clickable(
+                                    interactionSource = MutableInteractionSource(),
+                                    indication = null
+                                ) {
+                                    viewModel.onAction(
+                                        UserActions.BoardClicked(cellNo)
+                                    )
+                                    gridState[cellNo - 1] = !gridState[cellNo - 1]
+                                },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            AnimatedVisibility(
+                                visible = viewModel.boardItem[cellNo] != BoardCellValue.NONE,
+                                enter = fadeIn(
+                                    tween(
+                                        durationMillis = 500
+                                    )
+                                )
+                            ) {
+                                if (gridState[cellNo - 1]) {
+                                    if (boardCellValue == BoardCellValue.O) {
+                                        O(
+                                            30f
+                                        )
+                                    } else if (boardCellValue == BoardCellValue.X) {
+                                        X(
+                                            30f
+                                        )
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
         }
 
         Box(
@@ -285,8 +418,9 @@ fun MainScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "$turn Turn",
-                    fontSize = 16.sp)
+                    text = gameStates.hintText,
+                    fontSize = 16.sp
+                )
             }
         }
 
@@ -298,6 +432,8 @@ fun MainScreen(
 @Composable
 fun Preview() {
 
-    MainScreen(1, 1)
+    MainScreen(
+        viewModel = MainScreenViewModel()
+    )
 
 }

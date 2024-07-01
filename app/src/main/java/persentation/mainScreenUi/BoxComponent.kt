@@ -1,4 +1,4 @@
-package persentation.mainScreen
+package persentation.mainScreenUi
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +29,8 @@ fun BoardGrid() {
             strokeWidth = 5f,
             cap = StrokeCap.Round,
             start = Offset(x = size.width * 1 / 3, y = 0f),
-            end = Offset(x = size.width * 1 / 3, y = size.height)
+            end = Offset(x = size.width * 1 / 3, y = size.height),
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
         )
 
         drawLine(
@@ -36,7 +38,8 @@ fun BoardGrid() {
             strokeWidth = 5f,
             cap = StrokeCap.Round,
             start = Offset(x = size.width * 2 / 3, y = 0f),
-            end = Offset(x = size.width * 2 / 3, y = size.height)
+            end = Offset(x = size.width * 2 / 3, y = size.height),
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
         )
 
         drawLine(
@@ -44,7 +47,8 @@ fun BoardGrid() {
             strokeWidth = 5f,
             cap = StrokeCap.Round,
             start = Offset(x = 0f, y = size.height * 1 / 3),
-            end = Offset(x = size.width, y = size.height * 1 / 3)
+            end = Offset(x = size.width, y = size.height * 1 / 3),
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
         )
 
         drawLine(
@@ -52,14 +56,17 @@ fun BoardGrid() {
             strokeWidth = 5f,
             cap = StrokeCap.Round,
             start = Offset(x = 0f, y = size.height * 2 / 3),
-            end = Offset(x = size.width, y = size.height * 2 / 3)
+            end = Offset(x = size.width, y = size.height * 2 / 3),
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
         )
 
     }
 }
 
 @Composable
-fun X() {
+fun X(
+    stroke: Float
+) {
     Canvas(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +74,7 @@ fun X() {
     ) {
         drawLine(
             color = xColor,
-            strokeWidth = 15f,
+            strokeWidth = stroke,
             cap = StrokeCap.Round,
             start = Offset(x = 0f, y = 0f),
             end = Offset(x = size.width, y = size.height)
@@ -75,7 +82,7 @@ fun X() {
 
         drawLine(
             color = xColor,
-            strokeWidth = 15f,
+            strokeWidth = stroke,
             cap = StrokeCap.Round,
             start = Offset(x = 0f, y = size.height),
             end = Offset(x = size.width, y = 0f)
@@ -85,17 +92,19 @@ fun X() {
 }
 
 @Composable
-fun O() {
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp)
-        ) {
-            drawCircle(
-                color = Color.White,
-                style = Stroke(width = 15f)
-            )
-        }
+fun O(
+    stroke: Float
+) {
+    Canvas(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        drawCircle(
+            color = Color.White,
+            style = Stroke(width = stroke)
+        )
+    }
 }
 
 @Composable
@@ -105,13 +114,13 @@ fun WinHorizontalLine1() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = 0f, y = size.height * 1/6),
-            end = Offset(x = size.width, y = size.height * 1/6)
+            start = Offset(x = 0f, y = size.height * 1 / 6),
+            end = Offset(x = size.width, y = size.height * 1 / 6)
         )
     }
 }
@@ -123,13 +132,13 @@ fun WinHorizontalLine2() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = 0f, y = size.height * 3/6),
-            end = Offset(x = size.width, y = size.height * 3/6)
+            start = Offset(x = 0f, y = size.height * 3 / 6),
+            end = Offset(x = size.width, y = size.height * 3 / 6)
         )
     }
 }
@@ -141,13 +150,13 @@ fun WinHorizontalLine3() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = 0f, y = size.height * 5/6),
-            end = Offset(x = size.width, y = size.height * 5/6)
+            start = Offset(x = 0f, y = size.height * 5 / 6),
+            end = Offset(x = size.width, y = size.height * 5 / 6)
         )
     }
 }
@@ -160,13 +169,13 @@ fun WinVerticalLine1() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = size.width * 1/6, y = 0f),
-            end = Offset(x = size.width * 1/6, y = size.height)
+            start = Offset(x = size.width * 1 / 6, y = 0f),
+            end = Offset(x = size.width * 1 / 6, y = size.height)
         )
     }
 }
@@ -178,13 +187,13 @@ fun WinVerticalLine2() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = size.width * 5/6, y = 0f),
-            end = Offset(x = size.width * 5/6, y = size.height)
+            start = Offset(x = size.width * 5 / 6, y = 0f),
+            end = Offset(x = size.width * 5 / 6, y = size.height)
         )
     }
 }
@@ -196,14 +205,14 @@ fun WinVerticalLine3() {
     Canvas(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
-        ) {
+            .padding(15.dp),
+    ) {
         drawLine(
             color = Color.White,
-            strokeWidth = 10f,
+            strokeWidth = 15f,
             cap = StrokeCap.Round,
-            start = Offset( x = size.width * 3/6, y = 0f),
-            end = Offset(x = size.width * 3/6, y = size.height)
+            start = Offset(x = size.width * 3 / 6, y = 0f),
+            end = Offset(x = size.width * 3 / 6, y = size.height)
         )
     }
 }
@@ -216,12 +225,12 @@ fun WinDiagonalLine1() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = 0f, y = 0f),
+            start = Offset(x = 0f, y = 0f),
             end = Offset(x = size.width, y = size.height)
         )
     }
@@ -235,13 +244,13 @@ fun WinDiagonalLine2() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        ) {
+    ) {
         drawLine(
             color = Color.White,
             strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset( x = size.width, y = 0f),
-            end = Offset(x = 0f, y = size.height)
+            start = Offset(x = size.width, y = 0f),
+            end = Offset(x = 0f, y = size.height),
         )
     }
 }
@@ -249,12 +258,18 @@ fun WinDiagonalLine2() {
 @Preview
 @Composable
 fun Shower() {
-    BoardGrid()
-    WinHorizontalLine1()
-    WinHorizontalLine2()
-    WinHorizontalLine3()
-    WinVerticalLine1()
-    WinVerticalLine2()
-    WinDiagonalLine1()
-    WinDiagonalLine2()
+    O(
+        30f
+    )
+    X(
+        30f
+    )
+//    BoardGrid()
+//    WinHorizontalLine1()
+//    WinHorizontalLine2()
+//    WinHorizontalLine3()
+//    WinVerticalLine1()
+//    WinVerticalLine2()
+//    WinDiagonalLine1()
+//    WinDiagonalLine2()
 }
