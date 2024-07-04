@@ -1,4 +1,4 @@
-#X Vs O
+# X Vs O
 
 A Tic Tac Toe game designed with Jetpack Compose
 
@@ -21,7 +21,7 @@ I challenged myself to recreate a random UI design from Behance as Compose code 
 ![X Vs O Pic](https://github.com/Attia64/XVsOgame/assets/154909582/ca654afc-4094-4335-9506-13ca88cf711a)
 
 
-
+[Download The apk](https://github.com/Attia64/XVsOgame/raw/master/X%20Vs%20O.apk)
 
 
 
