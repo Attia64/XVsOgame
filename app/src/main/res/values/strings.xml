@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">X Vs O</string>
+    <string name="draw">Draw</string>
 </resources>

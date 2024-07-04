@@ -186,14 +186,14 @@ fun WinVerticalLine2() {
     Canvas(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
+            .padding(15.dp),
     ) {
         drawLine(
             color = Color.White,
-            strokeWidth = 10f,
+            strokeWidth = 15f,
             cap = StrokeCap.Round,
-            start = Offset(x = size.width * 5 / 6, y = 0f),
-            end = Offset(x = size.width * 5 / 6, y = size.height)
+            start = Offset(x = size.width * 3 / 6, y = 0f),
+            end = Offset(x = size.width * 3 / 6, y = size.height)
         )
     }
 }
@@ -205,14 +205,14 @@ fun WinVerticalLine3() {
     Canvas(
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.dp),
+            .padding(10.dp),
     ) {
         drawLine(
             color = Color.White,
-            strokeWidth = 15f,
+            strokeWidth = 10f,
             cap = StrokeCap.Round,
-            start = Offset(x = size.width * 3 / 6, y = 0f),
-            end = Offset(x = size.width * 3 / 6, y = size.height)
+            start = Offset(x = size.width * 5 / 6, y = 0f),
+            end = Offset(x = size.width * 5 / 6, y = size.height)
         )
     }
 }
@@ -258,18 +258,19 @@ fun WinDiagonalLine2() {
 @Preview
 @Composable
 fun Shower() {
-    O(
-        30f
-    )
-    X(
-        30f
-    )
-//    BoardGrid()
+//    O(
+//        30f
+//    )
+//    X(
+//        30f
+//    )
+    BoardGrid()
 //    WinHorizontalLine1()
 //    WinHorizontalLine2()
 //    WinHorizontalLine3()
 //    WinVerticalLine1()
-//    WinVerticalLine2()
+ //   WinVerticalLine2()
+    WinVerticalLine3()
 //    WinDiagonalLine1()
 //    WinDiagonalLine2()
 }
