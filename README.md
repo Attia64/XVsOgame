@@ -3,6 +3,8 @@
 A Tic Tac Toe game designed with Jetpack Compose
 
 
+
+
 ## OverView
 
 
@@ -10,11 +12,19 @@ This is my first project with Jetpack Compose. The app contains a single screen 
 draw times, and rounds played. It features smooth and simple animations, along with a current status display for the ongoing game.
 
 
+
+
+
 ## Project Goals
 
 
 The aim of this project is to practice and enhance the skills I have learned in Jetpack Compose.
 I challenged myself to recreate a random UI design from Behance as Compose code to test my abilities.
+
+
+The Original Ui: [Behance](https://www.behance.net/gallery/143418119/TIC-TAC-TOE-Game-App?tracking_source=search_projects|tic+tac+toe+game+ui&l=2)
+
+
 
 
 ## The Main and Only Screen
